@@ -1,5 +1,5 @@
 {
-  "name": "pull-request-labeller",
+  "name": "pull-request-labeler",
   "version": "0.0.1",
   "private": true,
   "description": "Github action which adds labels to pull requests",
@@ -15,7 +15,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/gplassard/pull-request-labeller.git"
+    "url": "git+https://github.com/gplassard/pull-request-labeler.git"
   },
   "keywords": [
     "actions",

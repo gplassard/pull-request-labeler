@@ -1,13 +1,12 @@
-name: 'build-test'
+name: 'run-action'
 on: # rebuild any PRs and main branch changes
   pull_request:
-  push:
-    branches:
-      - main
-      - 'releases/*'
+    types:
+      - opened
+      - reopened
 
 jobs:
-  build: # make sure build/ci work properly
+  action: # make sure build/ci work properly
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -15,3 +14,6 @@ jobs:
           yarn install
       - run: |
           yarn all
+      - uses: ./
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}

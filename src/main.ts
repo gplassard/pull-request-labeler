@@ -9,8 +9,6 @@ async function run(): Promise<void> {
     const {owner, repo} = github.context.repo
     const prNumber = github.context.payload.pull_request?.number
 
-    core.info("Context is " + JSON.stringify(github.context))
-
     if (!prNumber) {
       throw new Error(
         'Action should be used in context of a pull request. Could not find pull request number'
@@ -18,7 +16,11 @@ async function run(): Promise<void> {
     }
 
     const event = github.context.payload as PullRequestOpenedEvent
-    const targetBranch = event.pull_request.base.label
+    const targetBranch = event.pull_request.base.ref
+    const user = event.pull_request.base.user.login
+
+    const labels = [targetBranch, user]
+    core.info(`Adding labels ${labels}`)
 
     await octokit.request(
       'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
@@ -26,7 +28,7 @@ async function run(): Promise<void> {
         owner: owner,
         repo: repo,
         issue_number: prNumber,
-        labels: [targetBranch]
+        labels: labels
       }
     )
   } catch (error) {
