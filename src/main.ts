@@ -1,16 +1,34 @@
 import * as core from '@actions/core'
-import {wait} from './wait'
+import * as github from '@actions/github'
+import {PullRequestOpenedEvent} from '@octokit/webhooks-definitions/schema'
 
 async function run(): Promise<void> {
   try {
-    const ms: string = core.getInput('milliseconds')
-    core.debug(`Waiting ${ms} milliseconds ...`) // debug is only output if you set the secret `ACTIONS_RUNNER_DEBUG` to true
+    const token = core.getInput('token', {required: true})
+    const octokit = github.getOctokit(token)
+    const {owner, repo} = github.context.repo
+    const prNumber = github.context.payload.pull_request?.number
 
-    core.debug(new Date().toTimeString())
-    await wait(parseInt(ms, 10))
-    core.debug(new Date().toTimeString())
+    core.info("Context is " + JSON.stringify(github.context))
 
-    core.setOutput('time', new Date().toTimeString())
+    if (!prNumber) {
+      throw new Error(
+        'Action should be used in context of a pull request. Could not find pull request number'
+      )
+    }
+
+    const event = github.context.payload as PullRequestOpenedEvent
+    const targetBranch = event.pull_request.base.label
+
+    await octokit.request(
+      'POST /repos/{owner}/{repo}/issues/{issue_number}/labels',
+      {
+        owner: owner,
+        repo: repo,
+        issue_number: prNumber,
+        labels: [targetBranch]
+      }
+    )
   } catch (error) {
     core.setFailed(error.message)
   }
