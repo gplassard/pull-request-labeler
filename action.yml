@@ -2,7 +2,7 @@ name: 'pull-request-labeler'
 description: 'Add labels to pull requests'
 author: 'Gabriel Plassard'
 inputs:
-  token: # change this
+  token:
     required: true
     description: 'Github token to interact with github API'
 runs:
