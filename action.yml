@@ -1,4 +1,4 @@
-name: 'pull-request-labeler'
+name: 'another-pull-request-labeler'
 description: 'Add labels to pull requests'
 author: 'Gabriel Plassard'
 inputs:
