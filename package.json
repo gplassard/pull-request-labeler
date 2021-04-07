@@ -1,6 +1,6 @@
 {
   "name": "pull-request-labeler",
-  "version": "0.0.5",
+  "version": "0.0.6",
   "private": true,
   "description": "Github action which adds labels to pull requests",
   "main": "lib/main.js",
