@@ -20,6 +20,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - name: another-pull-request-labeler
-      uses: gplassard/pull-request-labeler
+      uses: gplassard/pull-request-labeler@latest
       with:
         token: ${{ secrets.GITHUB_TOKEN }}
